@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import './App.css'
 
 import { openLink } from '@telegram-apps/sdk';
-import { WalletConnectPage } from "./page/walletPage"
+// import { WalletConnectPage } from "./page/walletPage"
 declare const window: any;
 
 const isTelegramEnvironment = async () => {
@@ -74,7 +74,8 @@ function App() {
 
   return (
     <>
-      <WalletConnectPage />
+      {/* @ts-expect-error msg */}
+      <appkit-button />
     </>
   )
 }

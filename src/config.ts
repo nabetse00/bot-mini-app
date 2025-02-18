@@ -1,7 +1,8 @@
 import { http, createConfig } from 'wagmi'
 import { mainnet, sepolia, sonic, sonicTestnet } from 'wagmi/chains'
 import { walletConnect } from 'wagmi/connectors';
-const projectId = "f8a1c92a8299099a9362d29b2d57e091";
+
+export const projectId = "f8a1c92a8299099a9362d29b2d57e091";
 
 export const config = createConfig({
   connectors: [
@@ -19,8 +20,3 @@ export const config = createConfig({
   },
 })
 
-declare module "wagmi" {
-  interface Register {
-    config: typeof config;
-  }
-}
