@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import './App.css'
 
-import { openLink } from '@telegram-apps/sdk';
+import { openLink, init } from '@telegram-apps/sdk';
 // import { WalletConnectPage } from "./page/walletPage"
 declare const window: any;
+
+init();
 
 const isTelegramEnvironment = async () => {
   try {
