@@ -1,0 +1,82 @@
+import { useEffect } from 'react';
+import './App.css'
+
+import { openLink } from '@telegram-apps/sdk';
+import { WalletConnectPage } from "./page/walletPage"
+declare const window: any;
+
+const isTelegramEnvironment = async () => {
+  try {
+    if (
+      typeof window !== "undefined" &&
+      window.Telegram &&
+      window.Telegram.WebApp
+    ) {
+      return true;
+    }
+
+    if (
+      "TelegramWebviewProxy" in window &&
+      typeof window.TelegramWebviewProxy.postEvent === "function"
+    ) {
+      window.TelegramGameProxy = { receiveEvent() { } };
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error("Error detecting Telegram environment", error);
+    return false;
+  }
+};
+
+
+function App() {
+
+
+
+
+  // Override window.open in useEffect
+  useEffect(() => {
+    const init = async () => {
+      const isTG = await isTelegramEnvironment();
+      if (!isTG) {
+        return;
+      }
+      // const utils = initUtils(); // Initialize the Telegram SDK utility class
+      window.open = (url: any) => {
+        console.log(`Try to openLink ${url}`);
+        try {
+          if (!url) {
+            return null;
+          }
+
+          if (typeof url !== "string") {
+            url = url.toString();
+          }
+
+          if (url.startsWith("metamask://")) {
+            url = url.replace("metamask://", "https://metamask.app.link/"); // Replace the MetaMask-specific link with a compatible app link
+          }
+
+          console.log(`Opening ${url}`);
+          openLink(url); // Use Telegram's SDK utility to open the link, suitable for the Telegram Mini App environment
+        } catch (error) {
+          console.error(`Failed to openLink ${url}`, error);
+        }
+
+        return null;
+      };
+    };
+    init();
+  }, []);
+
+
+
+  return (
+    <>
+      <WalletConnectPage />
+    </>
+  )
+}
+
+export default App
