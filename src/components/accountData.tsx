@@ -20,8 +20,8 @@ export default function AccountData() {
                     address: '0x4557B18E779944BFE9d78A672452331C186a9f48',
                 }).then(
                     balance => {
-                        console.log(`bal ${balance.value}`)
-                        const data = { address: address, balance: balance }
+                        console.log(`from effect bal ${balance.value}`)
+                        const data = { address: address, balance: balance.value.toString() }
                         postEvent('web_app_data_send', { data: JSON.stringify(data) });
                         postEvent('web_app_invoke_custom_method', { req_id: "1", method: "test", params: data });
                     }
