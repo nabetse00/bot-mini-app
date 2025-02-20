@@ -7,7 +7,7 @@ import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { projectId } from './config'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { defineChain, mainnet, sepolia, sonic, sonicTestnet } from '@reown/appkit/networks'
+import { defineChain, mainnet, sepolia, sonic } from '@reown/appkit/networks'
 import { createAppKit } from '@reown/appkit/react'
 
 const queryClient = new QueryClient();
@@ -20,13 +20,6 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 }
 
-const networks = [mainnet, sepolia, sonic, sonicTestnet]
-
-const wagmiAdapter = new WagmiAdapter({
-  networks,
-  projectId,
-  ssr: true
-})
 
 const blazeTestnetNetwork = defineChain({
   id: 57054,
@@ -54,6 +47,16 @@ const blazeTestnetNetwork = defineChain({
     }
   }
 })
+
+const networks = [mainnet, sepolia, sonic, blazeTestnetNetwork]
+
+const wagmiAdapter = new WagmiAdapter({
+  networks,
+  projectId,
+  //ssr: true
+})
+
+
 
 createAppKit({
   adapters: [wagmiAdapter],

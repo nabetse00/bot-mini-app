@@ -81,7 +81,7 @@ function App() {
   return (
     <>
     <appkit-network-button />
-      <appkit-button balance='hide'/>
+      <appkit-button balance='show'/>
       
       ---
       <AccountData />

@@ -1,14 +1,22 @@
 import { useAppKitAccount } from "@reown/appkit/react"
 import { useEffect } from "react"
-export default function AccountData(){
+import { config} from "../config"
+import { getBalance } from "wagmi/actions"
+export default function AccountData() {
 
-    
+
     const { address, isConnected } = useAppKitAccount()
-   
+
+
     useEffect(
         () => {
             if (address) {
                 console.log(`address ${address}`)
+                getBalance(config, {
+                    address: '0x4557B18E779944BFE9d78A672452331C186a9f48',
+                }).then(
+                    balance => console.log(`bal ${balance.value}`)
+                )
 
             }
         }, [address]
@@ -16,9 +24,9 @@ export default function AccountData(){
 
     return (
         <>
-        { isConnected &&
-        {address}
-        }
+            {isConnected &&
+                <p>{address}</p>
+            }
         </>
     )
 }

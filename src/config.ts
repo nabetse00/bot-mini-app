@@ -5,7 +5,8 @@ import { walletConnect } from 'wagmi/connectors';
 
 export const projectId = "f8a1c92a8299099a9362d29b2d57e091";
 export const sonicBlazeTestnet = defineChain({
-    id: 57_054,
+    id: 57054,
+    sourceId: 11155111,
     name: 'Sonic Blaze Testnet',
     nativeCurrency: {
       name: 'Sonic',
@@ -47,7 +48,7 @@ export const config = createConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
     [sonic.id]: http(),
-    [sonicBlazeTestnet.id]: http(),
+    [sonicBlazeTestnet.id]: http("https://rpc.blaze.soniclabs.com"),
   },
 })
 
