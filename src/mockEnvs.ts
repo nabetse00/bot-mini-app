@@ -22,49 +22,52 @@ const themeParams = {
     text_color: '#f5f5f5',
 } as const;
 
-await (async () => {
+if (import.meta.env.DEV) {
+    await (async () => {
 
-    if (await isTMA()) {
-        console.log(`TMA app detected`)
-        return;
-    }
-    mockTelegramEnv({
-        launchParams: {
-            tgWebAppThemeParams: themeParams,
-            tgWebAppData: new URLSearchParams([
-                ['user', JSON.stringify({
-                    id: 1,
-                    first_name: 'Pavel',
-                })],
-                ['hash', ''],
-                ['signature', ''],
-                ['auth_date', Date.now().toString()],
-            ]),
-            tgWebAppStartParam: 'debug',
-            tgWebAppVersion: '8',
-            tgWebAppPlatform: 'tdesktop',
-        },
-        onEvent(e) {
-            if (e[0] === 'web_app_request_theme') {
-                return emitEvent('theme_changed', { theme_params: themeParams });
-            }
-            if (e[0] === 'web_app_request_viewport') {
-                return emitEvent('viewport_changed', {
-                    height: window.innerHeight,
-                    width: window.innerWidth,
-                    is_expanded: true,
-                    is_state_stable: true,
-                });
-            }
-            if (e[0] === 'web_app_request_content_safe_area') {
-                return emitEvent('content_safe_area_changed', noInsets);
-            }
-            if (e[0] === 'web_app_request_safe_area') {
-                return emitEvent('safe_area_changed', noInsets);
-            }
-        },
-    });
-    console.warn(
-        '⚠️ As long as the current environment was not considered as the Telegram-based one, it was mocked. Take a note, that you should not do it in production and current behavior is only specific to the development process. Environment mocking is also applied only in development mode. So, after building the application, you will not see this behavior and related warning, leading to crashing the application outside Telegram.',
-    );
-})();
+        if (await isTMA()) {
+            console.log(`TMA app detected`)
+            return;
+        }
+
+        mockTelegramEnv({
+            launchParams: {
+                tgWebAppThemeParams: themeParams,
+                tgWebAppData: new URLSearchParams([
+                    ['user', JSON.stringify({
+                        id: 1,
+                        first_name: 'Pavel',
+                    })],
+                    ['hash', ''],
+                    ['signature', ''],
+                    ['auth_date', Date.now().toString()],
+                ]),
+                tgWebAppStartParam: 'debug',
+                tgWebAppVersion: '8',
+                tgWebAppPlatform: 'tdesktop',
+            },
+            onEvent(e) {
+                if (e[0] === 'web_app_request_theme') {
+                    return emitEvent('theme_changed', { theme_params: themeParams });
+                }
+                if (e[0] === 'web_app_request_viewport') {
+                    return emitEvent('viewport_changed', {
+                        height: window.innerHeight,
+                        width: window.innerWidth,
+                        is_expanded: true,
+                        is_state_stable: true,
+                    });
+                }
+                if (e[0] === 'web_app_request_content_safe_area') {
+                    return emitEvent('content_safe_area_changed', noInsets);
+                }
+                if (e[0] === 'web_app_request_safe_area') {
+                    return emitEvent('safe_area_changed', noInsets);
+                }
+            },
+        });
+        console.warn(
+            '⚠️ As long as the current environment was not considered as the Telegram-based one, it was mocked. Take a note, that you should not do it in production and current behavior is only specific to the development process. Environment mocking is also applied only in development mode. So, after building the application, you will not see this behavior and related warning, leading to crashing the application outside Telegram.',
+        );
+    })();
+}

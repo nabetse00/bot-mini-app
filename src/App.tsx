@@ -2,9 +2,17 @@ import { useEffect } from 'react';
 import './App.css'
 
 import { openLink, init } from '@telegram-apps/sdk';
-declare const window: any;
 
+import './mockEnvs'
+import AccountData from './components/accountData';
+
+declare const window: any;
+try {
+  
 init();
+} catch (error) {
+console.error(`Init TMA error: ${error}`) 
+}
 
 const isTelegramEnvironment = async () => {
   try {
@@ -35,7 +43,7 @@ function App() {
 
   // Override window.open in useEffect
   useEffect(() => {
-    const init = async () => {
+    async function init() {
       const isTG = await isTelegramEnvironment();
       if (!isTG) {
         return;
@@ -64,7 +72,7 @@ function App() {
 
         return null;
       };
-    };
+    }
     init();
   }, []);
 
@@ -72,8 +80,11 @@ function App() {
 
   return (
     <>
-      {/* @ts-expect-error msg */}
-      <appkit-button />
+    <appkit-network-button />
+      <appkit-button balance='hide'/>
+      
+      ---
+      <AccountData />
     </>
   )
 }
