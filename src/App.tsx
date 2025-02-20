@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import './App.css'
 
 import { openLink, init } from '@telegram-apps/sdk';
-// import { WalletConnectPage } from "./page/walletPage"
 declare const window: any;
 
 init();
@@ -33,9 +32,6 @@ const isTelegramEnvironment = async () => {
 
 
 function App() {
-
-
-
 
   // Override window.open in useEffect
   useEffect(() => {
