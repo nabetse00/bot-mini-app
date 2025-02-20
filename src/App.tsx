@@ -14,7 +14,7 @@ init();
 console.error(`Init TMA error: ${error}`) 
 }
 
-const isTelegramEnvironment = async () => {
+export const isTelegramEnvironment = async () => {
   try {
     if (
       typeof window !== "undefined" &&
